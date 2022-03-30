@@ -62,7 +62,7 @@ def joined_conditional_probability(variable, evidence):
         for e in evidence:
             p = conditional_probability((e, evidence[e]), (variable, i))
             if p == 0.0:
-                p = 0.001
+                p = 0.000001
             probability *= p
         probabilities.append(probability)
     return probabilities
@@ -79,5 +79,6 @@ def predict(variable, evidence):
     return [alpha * p for p in probabilities]
 
 
-pro = predict('passed', {'has_time': 1, 'wants_to': 1, 'studying': 1})
-pass
+pass_test_prob1 = predict('passed', {'has_time': 1, 'wants_to': 1, 'studying': 1})
+print(f'First situation when student has time to study, wants to study, he will study just enough.\n')
+
