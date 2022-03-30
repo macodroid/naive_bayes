@@ -17,6 +17,20 @@ for row in data:
     table.append(table_row)
 
 
+def probability_of_one_event(event) -> float:
+    """
+    Calculate probability of event with specific value. P(A=1) = count(A=1)/count(all).\n
+    :param event: (event name, event value)
+    :return: probability of event
+    """
+    len_table = len(table)
+    count_event_value = 0
+    for row in table:
+        if row[event[0]] == event[1]:
+            count_event_value += 1
+    return count_event_value / len_table
+
+
 def conditional_probability(event_a, event_b) -> float:
     """
     Calculate condition probability P(event_a|event_b)\n
@@ -34,9 +48,36 @@ def conditional_probability(event_a, event_b) -> float:
     return count_a_b / count_event_b_value
 
 
-def joined_conditional_probability():
-    pass
+def joined_conditional_probability(variable, evidence):
+    """
+
+    :param variable:
+    :param evidence:
+    :return:
+    """
+    max_value_event = max(item[variable] for item in table)
+    probabilities = []
+    for i in range(max_value_event + 1):
+        probability = probability_of_one_event((variable, i))
+        for e in evidence:
+            p = conditional_probability((e, evidence[e]), (variable, i))
+            if p == 0.0:
+                p = 0.001
+            probability *= p
+        probabilities.append(probability)
+    return probabilities
 
 
-f = conditional_probability(('has_time', 0), ('passed', 1))
+def calculate_alpha(probabilities):
+    _sum = sum(probabilities)
+    return 1 / _sum
+
+
+def predict(variable, evidence):
+    probabilities = joined_conditional_probability(variable, evidence)
+    alpha = calculate_alpha(probabilities)
+    return [alpha * p for p in probabilities]
+
+
+pro = predict('passed', {'has_time': 1, 'wants_to': 1, 'studying': 1})
 pass
