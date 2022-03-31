@@ -52,7 +52,7 @@ class NaiveBayes:
 
     def __joined_conditional_probability(self, variable, evidence):
         """
-
+        Calculate probability P(variable, evidence).\n
         :param variable:
         :param evidence:
         :return:
